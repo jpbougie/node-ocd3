@@ -52,7 +52,7 @@
     
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      socket = io.connect('http://localhost:9123');
+      socket = io.connect('http://' + location.host + ':9123');
       socket.on('choices', function(data) {
         //console.log(data);
       });

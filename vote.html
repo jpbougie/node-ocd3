@@ -13,7 +13,7 @@
     
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var socket = io.connect('http://localhost:9123');
+      var socket = io.connect('http://' + location.host + ':9123');
       var ul = d3.select('body').append('ul').classed('choices', true);
       socket.on('choices', function(data) {
         ul.selectAll("li").data(data, function(d) { return d;})

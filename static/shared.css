@@ -1,0 +1,91 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+ol#menu {
+  font-weight: 800;
+  list-style: none;
+  font-size: 8em;
+  margin:0;
+  padding:0;
+  width: 100%;
+  clear:both;
+  height: 170px;
+}
+
+ol#menu li {
+  float: left;
+  width: 25%;
+  text-align: center;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+#container h1 {
+  font-size: 6em;
+  color: white;
+  font-weight: 700;
+}
+
+#container h2 {
+  font-weight: 700;
+  color: white;
+  font-size: 4em;
+}
+
+a { text-decoration: none; font-style: italic; color: white }
+
+#container h1, #container h2, #container ol, #container svg {
+  margin: 20px;
+}
+
+ol#menu li {
+  background-color: #FC7365;
+}
+
+ol#menu li.selected {
+  background-color: #8BC682;
+}
+
+article.slide {
+  display: none;
+}
+
+#container {
+  width: 100%;
+  background-color: #8BCCED;
+  min-height: 1000px;
+  float: left;
+}
+
+.with-editor #container {
+  width: 50%;
+}
+
+.with-editor #editor-container {
+  float: left;
+  width: 50%;
+}
+
+.with-editor #editor {
+  display: block;
+}
+
+#editor {
+  width: 50%;
+  height: 1000px;
+  display: none;
+}
+
+ol#results {
+  color: white;
+  font-size: 2em;
+}
+
+svg#deux rect, svg#trois rect {
+  stroke: none;
+  fill: #FC7365;
+}

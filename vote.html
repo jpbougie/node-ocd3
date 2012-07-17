@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300italic,400,800,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="shared.css" />
+    <link rel="stylesheet" href="vote.css" />
+    <script src="http://d3js.org/d3.v2.js"></script>
+    <title>Vote!</title>
+  </head>
+  <body>
+    <h1>Votez pour votre spectacle favori du festival</h1>
+    <h2>Votes multiples bienvenus</h2>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost:9123');
+      var ul = d3.select('body').append('ul').classed('choices', true);
+      socket.on('choices', function(data) {
+        ul.selectAll("li").data(data, function(d) { return d;})
+          .enter().append("li").append("a").attr("href", "").text(function(d) { return d; })
+                                                            .on('click', function(d) {
+                                                              socket.emit('vote', {choice: d});
+                                                              d3.event.preventDefault();
+                                                              d3.select(this).style("color", "#8BC682")
+                                                                             .transition().style("color", "#FC7365");
+                                                              return false;
+                                                            })
+      });
+    </script>
+  </body>
+</html>

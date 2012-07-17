@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300italic,400,800,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="shared.css" />
+    <script src="http://d3js.org/d3.v2.js"></script>
+    <script src="/ace/ace.js"></script>
+    <script src="/ace/mode-javascript.js"></script>
+  </head>
+  <body>
+    <ol id="menu">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+    </ol>
+    
+    <div id="content">
+      <section id="container"></section>
+
+      <div id="editor-container">
+        <section id="editor"></section>
+      </div>
+    </div>
+    
+    <article id="slide-1" class="slide">
+      <h1>Une <em>courte</em> introduction à d3.js</h1>
+      <h2><a href="http://www.d3js.org">http://www.d3js.org</a></h2>
+    </article>
+    
+    <article id="slide-2" class="slide">
+      <h1>Premier exemple</h1>
+      <h2>ol#results</h2>
+      <ol id="results">
+      </ol>
+    </article>
+    
+    
+    <article id="slide-3" class="slide">
+      <h1>Deuxième exemple</h1>
+      <h2>svg#deux <span id="value-2"></span></h2>
+      <svg id="deux"/>
+    </article>
+    
+    <article id="slide-4" class="slide">
+      <h1>Autres morceaux</h1>
+      <h2>Générateurs</h2>
+      <h2>Gestion du temps</h2>
+      <h2>Graphes</h2>
+      <h2><a href="http://bost.ocks.org/mike/join/">Thinking with Joins</a></h2>
+    </article>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      socket = io.connect('http://localhost:9123');
+      socket.on('choices', function(data) {
+        //console.log(data);
+      });
+      socket.on('results', function (data) {
+        //console.log(data);
+        //socket.emit('vote', { choice: 'Skrillex' });
+      });
+      
+      var slides = [
+        {
+          editor: false,
+          content: "#slide-1"
+        },
+        {
+          editor: true,
+          content: "#slide-2",
+          code: "var results = [\n  {\"name\": \"Skrillex\", \"value\": 5},\n  {\"name\": \"Bon Jovi\", \"value\": 8},\n  {\"name\": \"Aerosmith\", \"value\": 2},\n  {\"name\": \"Renée Martel\", \"value\": 12}];\n",
+          reset: function() {
+            d3.select("#results")
+          }
+        },
+        {
+          editor: true,
+          content: "#slide-3",
+          code: "var margin = {left: 20, top: 10, right: 20, bottom: 50};\nvar width = 600, height = 400, elemWidth = 80, between = 41;\n",
+          reset: function() {
+            d3.select("#deux").text('');
+            socket.removeAllListeners();
+          }
+        },
+        
+        {
+          editor: false,
+          content: "#slide-4",
+        }
+      ];
+      
+      
+      d3.selectAll('#menu li').data(slides).on('click', function(data) {
+        d3.select("#content").classed('with-editor', data.editor)
+        d3.selectAll('#menu li').classed('selected', false);
+        d3.select(this).classed('selected', true);
+        d3.select("#container").html(d3.select(data.content).html())
+        editor.getSession().getDocument().setValue(data.code);
+      });
+      
+      var editor = ace.edit("editor");
+      var JavaScriptMode = require("ace/mode/javascript").Mode;
+      editor.getSession().setMode(new JavaScriptMode());
+      document.getElementById('editor').style.fontSize='24px';
+      //editor.setTheme("ace/theme/solarized_dark");
+      editor.on("blur", function() {
+        data = d3.select('.selected').datum();
+        if(typeof data.reset == "function") data.reset();
+        var code = editor.getSession().getDocument().getValue();
+        d3.select('.selected').datum().code = code;
+        eval(code);
+      });
+    </script>
+  </body>
+</html>

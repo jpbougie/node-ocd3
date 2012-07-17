@@ -1,0 +1,8 @@
+ul.choices a {
+  color: #FC7365;
+  text-decoration: underline;
+}
+
+h1, h2, ul {
+  margin: 20px;
+}
